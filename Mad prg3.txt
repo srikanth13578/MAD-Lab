@@ -1,0 +1,101 @@
+1. index.html
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Simple PWA</title>
+
+  <link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+
+  <h1>Hello, PWA</h1>
+
+  <p>This is my first PWA page</p>
+
+  <img src="icons/img1.jpg" width="100">
+
+  <img src="icons/img2.jpg" width="100">
+
+  <script src="app.js"></script>
+
+</body>
+
+</html>
+
+2. app.js
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker.register("./serviceworker.js")
+
+      .then(reg => console.log("SW registered:", reg.scope))
+
+      .catch(err => console.log("SW failed:", err));
+
+  });
+
+}
+
+3. manifest.json
+
+{
+  "name": "Simple PWA",
+
+  "short_name": "PWA",
+
+  "start_url": "/index.html",
+
+  "display": "standalone",
+
+  "background_color": "#ffffff",
+
+  "theme_color": "#4CAF50",
+
+  "icons": [
+
+    {
+      "src": "icons/img1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    },
+
+    {
+      "src": "icons/img2.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+
+  ]
+}
+
+4. serviceworker.js
+
+self.addEventListener('install', (event) => {
+
+  console.log('Service Worker installing.');
+
+});
+
+self.addEventListener('activate', (event) => {
+
+  console.log('Service Worker activating.');
+
+});
+
+self.addEventListener('fetch', (event) => {
+
+  console.log('Fetching:', event.request.url);
+
+});
