@@ -1,0 +1,155 @@
+1. index.html
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login Page</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+
+        body{
+            font-family: Arial;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        input{
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
+
+        button{
+            padding: 10px 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h2>Login Page</h2>
+
+    <input type="text"
+           id="username"
+           placeholder="Enter Username">
+
+    <br>
+
+    <input type="password"
+           id="password"
+           placeholder="Enter Password">
+
+    <br>
+
+    <button onclick="login()">
+        Login
+    </button>
+
+    <h3 id="result"></h3>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
+
+2. app.js
+
+if ("serviceWorker" in navigator) {
+
+    navigator.serviceWorker
+    .register("./serviceworker.js")
+
+    .then((reg) => {
+
+        console.log("Service Worker Registered");
+
+    })
+
+    .catch((err) => {
+
+        console.log("Service Worker Failed");
+
+    });
+
+}
+
+function login(){
+
+    let user =
+        document.getElementById("username").value;
+
+    let pass =
+        document.getElementById("password").value;
+
+    if(user == "admin" && pass == "admin"){
+
+        document.getElementById("result")
+        .innerHTML = "Login Successful";
+
+    }
+
+    else{
+
+        document.getElementById("result")
+        .innerHTML = "Invalid Username or Password";
+
+    }
+
+}
+
+3. manifest.json
+
+{
+  "name": "Login App",
+
+  "short_name": "Login",
+
+  "start_url": "/index.html",
+
+  "display": "standalone",
+
+  "background_color": "#ffffff",
+
+  "theme_color": "#2196F3",
+
+  "icons": [
+    {
+      "src": "icons/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
+4. serviceworker.js
+
+self.addEventListener('install', (event) => {
+
+    console.log('Service Worker Installed');
+
+});
+
+self.addEventListener('activate', (event) => {
+
+    console.log('Service Worker Activated');
+
+});
+
+self.addEventListener('fetch', (event) => {
+
+    console.log('Fetching:', event.request.url);
+
+});
