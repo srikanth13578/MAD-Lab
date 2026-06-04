@@ -1,0 +1,150 @@
+start.js
+
+if ('serviceWorker' in navigator) {
+
+    navigator.serviceWorker
+        .register("./sw.js")
+
+        .then((reg) => console.log("registered", reg))
+
+        .catch((err) => console.log("err", err));
+
+} else {
+
+    console.log('No service worker support in this browser');
+
+}
+
+manifest.json
+
+{
+  "name": "Program_5",
+  "short_name": "Program_5",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "background_color": "#ffff00",
+  "description": "Online and Offline Web Page Loading",
+  "orientation": "portrait-primary",
+  "theme_color": "#2196F3",
+
+  "icons": [
+    {
+      "src": "./icons/logo.png",
+      "sizes": "108x108",
+      "type": "image/png"
+    }
+  ]
+}
+
+index.html
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Program 5</title>
+
+    <link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+
+<h2>Online and Offline Web Page Load</h2>
+
+<script src="./js/start.js"></script>
+
+<p>
+Image 1 ->
+<img src="./img/bathroomprod.jpg"
+width="100"
+height="100">
+</p>
+
+<p>
+Image 2 ->
+<img src="./img/camera.jpg"
+width="100"
+height="100">
+</p>
+
+<p>
+Image 3 ->
+<img src="./img/cosmetics.jpg"
+width="100"
+height="100">
+</p>
+
+<p>
+Image 4 ->
+<img src="./img/headphone.jpeg"
+width="100"
+height="100">
+</p>
+
+</body>
+
+</html>
+
+sw.js
+
+var mycache = "mycache";
+
+var assets = [
+
+    "./",
+    "./index.html",
+
+    "./img/bathroomprod.jpg",
+    "./img/camera.jpg",
+    "./img/headphone.jpeg",
+    "./img/cosmetics.jpg",
+
+    "./js/start.js",
+
+    "./sw.js",
+
+    "./manifest.json"
+
+];
+
+self.addEventListener('install', event => {
+
+    console.log('inside install');
+
+    event.waitUntil(
+
+        caches.open(mycache)
+            .then(cache => {
+
+                return cache.addAll(assets);
+
+            })
+
+    );
+
+});
+
+self.addEventListener('activate', event => {
+
+    console.log('inside activate');
+
+});
+
+self.addEventListener('fetch', event => {
+
+    event.respondWith(
+
+        caches.match(event.request)
+
+            .then(response => {
+
+                return response || fetch(event.request);
+
+            })
+
+    );
+
+});
