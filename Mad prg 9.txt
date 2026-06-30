@@ -1,0 +1,66 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: GestureDemo(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
+}
+
+class GestureDemo extends StatefulWidget {
+  const GestureDemo({super.key});
+
+  @override
+  GestureDemoState createState() => GestureDemoState();
+}
+
+class GestureDemoState extends State<GestureDemo> {
+  String _message = 'Double Tap or Swipe';
+
+  void _changeMessageOnSwipe(DragUpdateDetails details) {
+    setState(() {
+      if (details.delta.dx > 0) {
+        _message = 'Swipe Right';
+      } else {
+        _message = 'Swipe Left';
+      }
+    });
+  }
+
+  void _showMessageOnDoubleTap() {
+    setState(() {
+      _message = 'Double Tap';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Gesture Detector Example'),
+      ),
+      body: Center(
+        child: GestureDetector(
+          onDoubleTap: _showMessageOnDoubleTap,
+          onPanUpdate: _changeMessageOnSwipe,
+          child: Container(
+            width: 200,
+            height: 200,
+            color: Colors.blue,
+            alignment: Alignment.center,
+            child: Text(
+              _message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
